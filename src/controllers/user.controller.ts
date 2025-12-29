@@ -52,3 +52,12 @@ export const getLogin = asyncHandler(async (req: Request, res: Response) => {
 
     return res.status(200).json(new ApiResponse({ token }))
 })
+
+export const userDetails = asyncHandler(async (req: Request, res: Response) => {
+    return res.status(200).json(new ApiResponse({
+        _id: req.user?._id,
+        name: req.user?.name,
+        email: req.user?.email,
+        role: req.user?.role
+    }))
+})
