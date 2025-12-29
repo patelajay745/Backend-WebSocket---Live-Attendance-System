@@ -3,6 +3,7 @@ import express, { Request, Response } from "express"
 import userRoutes from "@/routes/user.routes"
 import classRoutes from "@/routes/class.routes"
 import studentRoutes from "@/routes/students.routes"
+import attendanceRoutes from "@/routes/attendance.routes"
 import { errorHandler } from "./middlewares/errorHandler.middleware"
 
 const app = express()
@@ -15,6 +16,7 @@ app.get("/", (req: Request, res: Response) => { return res.status(200).json("Up 
 app.use("/api/v1/auth", userRoutes)
 app.use("/api/v1/class", classRoutes)
 app.use("/api/v1/students", studentRoutes)
+app.use("/api/v1/attendance", attendanceRoutes)
 
 app.use(errorHandler)
 
