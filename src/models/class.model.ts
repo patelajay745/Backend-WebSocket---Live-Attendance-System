@@ -1,22 +1,22 @@
-import mongoose, { Document, model, ObjectId, Schema } from "mongoose";
+import mongoose, { Document, model, Schema, Types } from "mongoose";
 
 export interface IClass extends Document {
     className: string
-    teacherId: ObjectId
-    studentIds: ObjectId[]
+    teacherId: Types.ObjectId
+    studentIds: Types.ObjectId[]
 }
 
-const classSchema = new Schema({
+const classSchema = new Schema<IClass>({
     className: {
         type: String,
         trim: true
     },
     teacherId: {
-        type: mongoose.Types.ObjectId,
+        type: Schema.Types.ObjectId,
         ref: "User"
     },
     studentIds: {
-        type: [mongoose.Types.ObjectId],
+        type: [Schema.Types.ObjectId],
         ref: "User"
     }
 

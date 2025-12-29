@@ -31,3 +31,11 @@ export const isAuth = asyncHandler(async (req: Request, res: Response, next: Nex
 
     next()
 })
+
+export const isTeacher = asyncHandler(async (req: Request, res: Response, next: NextFunction) => {
+    const role = req.user!.role
+
+    if (role !== "teacher") throw new ApiError(403, "UnAuthrorized request")
+
+    next()
+})
