@@ -1,11 +1,15 @@
 
 export class ApiError extends Error {
-    error: string[]
+    error: string
+    success: boolean
+    statusCode: number
 
-    constructor(error = [], message?: "", stack = "") {
+    constructor(statusCode: number = 500, message: string = "", stack = "") {
         super(message)
 
-        this.error = error
+        this.success = false
+        this.error = message
+        this.statusCode = statusCode
 
         if (stack) {
             this.stack = stack
