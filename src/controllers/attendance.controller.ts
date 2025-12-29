@@ -5,10 +5,10 @@ import { Request, Response } from "express";
 import mongoose from "mongoose";
 import { ApiResponse } from "@/utils/apiResponse";
 
-let activeSession: {
+export let activeSession: {
     classId: string;
     startedAt: string;
-    attendace: Object;
+    attendace: Record<string, 'present' | 'absent'>;
 } | null = null;
 
 export const getActiveSession = () => activeSession;
