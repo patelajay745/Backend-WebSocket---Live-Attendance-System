@@ -49,3 +49,21 @@ export const addStudentToClass = asyncHandler(async (req: Request, res: Response
         studentId: classData.studentIds
     }))
 })
+
+export const getClassDetails = asyncHandler(async (req: Request, res: Response) => {
+
+    const { id } = req.params
+
+    if (!id) throw new ApiError(400, "Class id is not provided")
+
+    const classDetails = await ClassModel.findOne({ _id: new mongoose.Types.ObjectId(id) }).populate("studentIds", "_id name email")
+
+    if (!classDetails) throw new ApiError(404, "Class not found")
+
+    return res.status(200).json(new ApiResponse({
+        _id: classDetails._id,
+        className: classDetails.className,
+        teacherId: classDetails.teacherId,
+        students: classDetails.studentIds
+    }))
+})
