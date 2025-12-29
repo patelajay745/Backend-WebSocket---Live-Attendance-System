@@ -5,6 +5,7 @@ import { ApiResponse } from "@/utils/apiResponse";
 import { ApiError } from "@/utils/apiError";
 import { User } from "@/models/user.model";
 import mongoose from "mongoose";
+import { Attendance } from "@/models/attendance.model";
 
 export const createClass = asyncHandler(async (req: Request, res: Response) => {
     const { className } = req.body
@@ -66,4 +67,25 @@ export const getClassDetails = asyncHandler(async (req: Request, res: Response) 
         teacherId: classDetails.teacherId,
         students: classDetails.studentIds
     }))
+})
+
+export const getMyAttendace = asyncHandler(async (req: Request, res: Response) => {
+    const { id: classId } = req.params
+
+    const classDetails = await ClassModel.findOne({
+        _id: new mongoose.Types.ObjectId(classId), studentIds: {
+            $in: [new mongoose.Types.ObjectId(req.user?._id)]
+        }
+    })
+
+    if (!classDetails) throw new ApiError(404, "Class not found")
+
+    const attendance = await Attendance.find({
+        classId: classDetails._id,
+        studentId: new mongoose.Types.ObjectId(req.user?._id)
+    })
+
+    if (attendance.length === 0) throw new ApiError(404, "No attendance is found")
+
+    return res.status(200).json(new ApiResponse(attendance))
 })

@@ -1,18 +1,18 @@
-import mongoose, { model, ObjectId, Schema } from "mongoose";
+import mongoose, { Document, model, Schema, Types } from "mongoose";
 
 export interface IAttendance extends Document {
-    classId: ObjectId
-    studentId: ObjectId
+    classId: Types.ObjectId
+    studentId: Types.ObjectId
     status: "present" | "absent"
 }
 
-const attendanceSchema = new Schema({
+const attendanceSchema = new Schema<IAttendance>({
     classId: {
-        type: mongoose.Types.ObjectId,
+        type: Schema.Types.ObjectId,
         ref: "Class"
     },
     studentId: {
-        type: mongoose.Types.ObjectId,
+        type: Schema.Types.ObjectId,
         ref: "User"
     },
     status: {

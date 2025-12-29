@@ -42,6 +42,14 @@ export const isTeacher = asyncHandler(async (req: Request, res: Response, next: 
     next()
 })
 
+export const isStudent = asyncHandler(async (req: Request, res: Response, next: NextFunction) => {
+    const role = req.user!.role
+
+    if (role !== "student") throw new ApiError(403, "UnAuthrorized request")
+
+    next()
+})
+
 export const isPartOf = asyncHandler(async (req: Request, res: Response, next: NextFunction) => {
     const userId = new mongoose.Types.ObjectId(req.user?._id)
 
